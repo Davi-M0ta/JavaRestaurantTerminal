@@ -8,16 +8,16 @@ public class AddPratos extends javax.swing.JDialog {
     public AddPratos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
+
         this.setTitle("Adicionar Pratos de Comida");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLblTitulo = new javax.swing.JLabel();
         jTFnomePrato = new javax.swing.JTextField();
         jTFtamanho = new javax.swing.JTextField();
         jLblNomePrato = new javax.swing.JLabel();
@@ -31,8 +31,8 @@ public class AddPratos extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel1.setText("Adicionar Pratos de Comida");
+        jLblTitulo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLblTitulo.setText("Adicionar Pratos de Comida");
 
         jLblNomePrato.setText("Nome Prato:");
 
@@ -79,14 +79,14 @@ public class AddPratos extends javax.swing.JDialog {
                 .addGap(14, 14, 14))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(jLblTitulo)
                 .addGap(76, 76, 76))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLblTitulo)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFnomePrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -125,54 +125,31 @@ public class AddPratos extends javax.swing.JDialog {
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnAdicionaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAdicionaActionPerformed
-        String nomePrato = jTFnomePrato.getText();
-        String valor = jTFvalor.getText();
-        String tamanho = jTFtamanho.getText();
+        if ("".equals(jTFnomePrato.getText()) || "".equals(jTFvalor.getText()) || "".equals(jTFtamanho.getText())) {
+            JOptionPane.showMessageDialog(this, "Há Campos em Branco!");
+        } else {
+            String nomePrato = jTFnomePrato.getText();
+            String valor = jTFvalor.getText();
+            String tamanho = jTFtamanho.getText();
 
-        String query = "INSERT INTO `pratosComida` (`nomePrato`, `valor`, `tamanho`) VALUES ('" + nomePrato + "', '" + valor + "', '" + tamanho + "');";
-        try {
-            Statement stmt = Conexao.conecta().createStatement();
-            stmt.execute(query);
-            JOptionPane.showMessageDialog(this, "Dados Registrados!");
-            stmt.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Erro de Sintaxe:\n" + ex.getMessage());
+            String query = "INSERT INTO `pratosComida` (`nomePrato`, `valor`, `tamanho`) VALUES ('" + nomePrato + "', '" + valor + "', '" + tamanho + "');";
+            try {
+                Statement stmt = Conexao.conecta().createStatement();
+                stmt.execute(query);
+                JOptionPane.showMessageDialog(this, "Dados Registrados!");
+                stmt.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Erro de Sintaxe:\n" + ex.getMessage());
+            }
         }
-        
+
         jTFnomePrato.setText(null);
         jTFvalor.setText(null);
         jTFtamanho.setText(null);
         jTFnomePrato.requestFocus();
     }//GEN-LAST:event_jBtnAdicionaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddPratos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddPratos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddPratos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddPratos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(() -> {
             AddPratos dialog = new AddPratos(new javax.swing.JFrame(), true);
             dialog.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -188,9 +165,9 @@ public class AddPratos extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAdiciona;
     private javax.swing.JButton jBtnCancelar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLblNomePrato;
     private javax.swing.JLabel jLblTamanho;
+    private javax.swing.JLabel jLblTitulo;
     private javax.swing.JLabel jLblValor;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTFnomePrato;

@@ -1,12 +1,12 @@
 package terminalrestaurante;
 
-import java.util.LinkedList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class VendaComida extends javax.swing.JFrame {
-
-    static LinkedList<Pratos> produtos = new LinkedList<>();
-    static LinkedList<Cliente> clientes = new LinkedList<>();
 
     public VendaComida() {
         initComponents();
@@ -32,11 +32,11 @@ public class VendaComida extends javax.swing.JFrame {
         jBtnAdiciona = new javax.swing.JButton();
         jBnCancelaVenda = new javax.swing.JButton();
         jBtnConfirmaVenda = new javax.swing.JButton();
-        jTFQtd = new javax.swing.JTextField();
+        jTFporções = new javax.swing.JTextField();
         jTxtQtd = new javax.swing.JLabel();
-        jTFProduto = new javax.swing.JTextField();
-        jTFCodProduto = new javax.swing.JTextField();
-        jBtnBuscaProdutos = new javax.swing.JButton();
+        jTFPrato = new javax.swing.JTextField();
+        jTFCodPrato = new javax.swing.JTextField();
+        jBtnBuscaPratos = new javax.swing.JButton();
         jTxtCodProduto = new javax.swing.JLabel();
         jTFCliente = new javax.swing.JTextField();
         jTFCodCliente = new javax.swing.JTextField();
@@ -44,9 +44,6 @@ public class VendaComida extends javax.swing.JFrame {
         jTxtCodCliente = new javax.swing.JLabel();
         panel1 = new java.awt.Panel();
         jLabel2 = new javax.swing.JLabel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenuAdicionarClientes = new javax.swing.JMenu();
-        jMenuAdicionarPratos = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -140,19 +137,19 @@ public class VendaComida extends javax.swing.JFrame {
         jTxtQtd.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jTxtQtd.setText("Porções:");
 
-        jTFProduto.setEditable(false);
-        jTFProduto.setBackground(new java.awt.Color(255, 255, 204));
+        jTFPrato.setEditable(false);
+        jTFPrato.setBackground(new java.awt.Color(255, 255, 204));
 
-        jTFCodProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTFCodPrato.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTFCodProdutoKeyReleased(evt);
+                jTFCodPratoKeyReleased(evt);
             }
         });
 
-        jBtnBuscaProdutos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/menu.png"))); // NOI18N
-        jBtnBuscaProdutos.addActionListener(new java.awt.event.ActionListener() {
+        jBtnBuscaPratos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/menu.png"))); // NOI18N
+        jBtnBuscaPratos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnBuscaProdutosActionPerformed(evt);
+                jBtnBuscaPratosActionPerformed(evt);
             }
         });
 
@@ -193,7 +190,7 @@ public class VendaComida extends javax.swing.JFrame {
                             .addComponent(jTxtCodProduto))
                         .addGap(12, 12, 12)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jBtnBuscaProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jBtnBuscaPratos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBtnBuscaClientes))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -213,13 +210,13 @@ public class VendaComida extends javax.swing.JFrame {
                                         .addComponent(jTFDinheiro, javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addComponent(jTFTroco)))
                                 .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jTFCodProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTFCodPrato, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTFProduto, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTFPrato, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addComponent(jTxtQtd)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jTFQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(jTFporções, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addComponent(jBnCancelaVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,12 +239,12 @@ public class VendaComida extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTFCodProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTFProduto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTFCodPrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTFPrato, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTxtQtd)
-                        .addComponent(jTFQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTFporções, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jTxtCodProduto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtnBuscaProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jBtnBuscaPratos, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -287,9 +284,8 @@ public class VendaComida extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBtnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jBtnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         panel1.setBackground(new java.awt.Color(102, 0, 102));
@@ -310,37 +306,8 @@ public class VendaComida extends javax.swing.JFrame {
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(139, 139, 139)
                 .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(199, Short.MAX_VALUE))
         );
-
-        jMenuBar1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        jMenuAdicionarClientes.setText("Adicionar Clientes");
-        jMenuAdicionarClientes.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenuAdicionarClientesMenuSelected(evt);
-            }
-        });
-        jMenuBar1.add(jMenuAdicionarClientes);
-
-        jMenuAdicionarPratos.setText("Adicionar Pratos de Comida");
-        jMenuAdicionarPratos.addMenuListener(new javax.swing.event.MenuListener() {
-            public void menuCanceled(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuDeselected(javax.swing.event.MenuEvent evt) {
-            }
-            public void menuSelected(javax.swing.event.MenuEvent evt) {
-                jMenuAdicionarPratosMenuSelected(evt);
-            }
-        });
-        jMenuBar1.add(jMenuAdicionarPratos);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -362,22 +329,36 @@ public class VendaComida extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTFCodClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodClienteKeyReleased
-        try {
-            int clienteCod = Integer.parseInt(jTFCodCliente.getText());
-            buscaCliente(clienteCod);
-        } catch (NumberFormatException ex) {
+        boolean encontrado = false;
+        int clienteCod = Integer.parseInt(jTFCodCliente.getText());
 
+        try {
+            Statement stmt = Conexao.conecta().createStatement();
+            String query = "SELECT nome FROM clientes WHERE cod = " + clienteCod + ";";
+            ResultSet resultados = stmt.executeQuery(query);
+
+            while (resultados.next()) {
+                jTFCliente.setText(clienteCod + " - " + resultados.getString("nome"));
+                encontrado = true;
+            }
+
+            if (!encontrado) {
+                jTFCliente.setText(null);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro de sintaxe SQL:\n" + ex.getMessage());
         }
     }//GEN-LAST:event_jTFCodClienteKeyReleased
 
-    private void jTFCodProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodProdutoKeyReleased
+    private void jTFCodPratoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFCodPratoKeyReleased
         try {
-            int codProduto = Integer.parseInt(jTFCodProduto.getText());
+            int codProduto = Integer.parseInt(jTFCodPrato.getText());
             buscaProdutos(codProduto);
         } catch (NumberFormatException ex) {
 
         }
-    }//GEN-LAST:event_jTFCodProdutoKeyReleased
+    }//GEN-LAST:event_jTFCodPratoKeyReleased
 
     private void jBtnBuscaClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBuscaClientesActionPerformed
         BuscaClientes buscaClientes = new BuscaClientes(this, true);
@@ -388,40 +369,50 @@ public class VendaComida extends javax.swing.JFrame {
         buscaCliente(codSelecionado);
     }//GEN-LAST:event_jBtnBuscaClientesActionPerformed
 
-    private void jBtnBuscaProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBuscaProdutosActionPerformed
+    private void jBtnBuscaPratosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnBuscaPratosActionPerformed
         BuscaPratos buscaProdutos = new BuscaPratos(this, true);
         buscaProdutos.setVisible(true);
 
         int codProdutoSelecionado = buscaProdutos.getCodProdutoSelecionado();
-        jTFCodProduto.setText("" + codProdutoSelecionado);
+        jTFCodPrato.setText("" + codProdutoSelecionado);
         buscaProdutos(codProdutoSelecionado);
-    }//GEN-LAST:event_jBtnBuscaProdutosActionPerformed
+    }//GEN-LAST:event_jBtnBuscaPratosActionPerformed
 
     private void jBtnAdicionaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAdicionaActionPerformed
-        DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
+        if ("".equals(jTFCodPrato.getText()) || "".equals(jTFCodCliente.getText()) || "".equals(jTFporções.getText())) {
+            JOptionPane.showMessageDialog(this, "Há Campos em Branco!");
+        } else {
+            DefaultTableModel modelo = (DefaultTableModel) jTable1.getModel();
 
-        int codSelecionado = Integer.parseInt(jTFCodProduto.getText());
+            int codSelecionado = Integer.parseInt(jTFCodPrato.getText());
+            int porções = Integer.parseInt(jTFporções.getText());
 
-        int quantidade = Integer.parseInt(jTFQtd.getText());
+            try {
+                Statement stmt = Conexao.conecta().createStatement();
+                String query = "SELECT * FROM pratosComida WHERE cod = " + codSelecionado + ";";
+                ResultSet resultados = stmt.executeQuery(query);
 
-        for (int i = 0; i < produtos.size(); i++) {
-            if (produtos.get(i).getCod() == codSelecionado) {
-                modelo.addRow(
-                        new Object[]{
-                            produtos.get(i).getCod(),
-                            produtos.get(i).getProduto(),
-                            produtos.get(i).getValor(),
-                            jTFQtd.getText(),
-                            quantidade * produtos.get(i).getValor()
-                        }
-                );
+                while (resultados.next()) {
+                    modelo.addRow(
+                            new Object[]{
+                                resultados.getString("cod"),
+                                resultados.getString("nomePrato"),
+                                resultados.getDouble("valor"),
+                                jTFporções.getText(),
+                                porções * (resultados.getDouble("valor"))
+                            }
+                    );
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Erro de sintaxe SQL:\n" + ex.getMessage());
             }
+            updateTotal();
         }
-        updateTotal();
-        jTFQtd.setText(null);
-        jTFProduto.setText(null);
-        jTFCodProduto.setText(null);
-        jTFCodProduto.requestFocus();
+
+        jTFporções.setText(null);
+        jTFPrato.setText(null);
+        jTFCodPrato.setText(null);
+        jTFCodPrato.requestFocus();
     }//GEN-LAST:event_jBtnAdicionaActionPerformed
 
     private void jBtnConfirmaVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmaVendaActionPerformed
@@ -429,13 +420,18 @@ public class VendaComida extends javax.swing.JFrame {
         double dinheiro = Double.parseDouble(jTFDinheiro.getText());
         double troco = dinheiro - valorTotal;
 
-        jTFTroco.setText("" + troco);
+        if (dinheiro < valorTotal) {
+            JOptionPane.showMessageDialog(this, "Dinheiro Insuficiente!");
+        } else {
 
-        Resumo resumo = new Resumo(this, true, valorTotal, dinheiro, troco);
-        resumo.setVisible(true);
+            jTFTroco.setText("" + troco);
 
-        if (!resumo.isVisible()) {
-            limpaCampos();
+            Resumo resumo = new Resumo(this, true, valorTotal, dinheiro, troco);
+            resumo.setVisible(true);
+
+            if (!resumo.isVisible()) {
+                limpaCampos();
+            }
         }
     }//GEN-LAST:event_jBtnConfirmaVendaActionPerformed
 
@@ -447,22 +443,12 @@ public class VendaComida extends javax.swing.JFrame {
         this.limpaCampos();
     }//GEN-LAST:event_jBnCancelaVendaActionPerformed
 
-    private void jMenuAdicionarClientesMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuAdicionarClientesMenuSelected
-        AddCliente addCliente = new AddCliente(this, true);
-        addCliente.setVisible(true);
-    }//GEN-LAST:event_jMenuAdicionarClientesMenuSelected
-
-    private void jMenuAdicionarPratosMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_jMenuAdicionarPratosMenuSelected
-        AddPratos addPratos = new AddPratos(this, true);
-        addPratos.setVisible(true);
-    }//GEN-LAST:event_jMenuAdicionarPratosMenuSelected
-
     public void limpaCampos() {
         jTFCodCliente.setText(null);
-        jTFCodProduto.setText(null);
+        jTFCodPrato.setText(null);
         jTFCliente.setText(null);
-        jTFProduto.setText(null);
-        jTFQtd.setText(null);
+        jTFPrato.setText(null);
+        jTFporções.setText(null);
         jTFDinheiro.setText(null);
         jTFTroco.setText(null);
         jTFValorTotal.setText(null);
@@ -490,24 +476,21 @@ public class VendaComida extends javax.swing.JFrame {
     private javax.swing.JButton jBnCancelaVenda;
     private javax.swing.JButton jBtnAdiciona;
     private javax.swing.JButton jBtnBuscaClientes;
-    private javax.swing.JButton jBtnBuscaProdutos;
+    private javax.swing.JButton jBtnBuscaPratos;
     private javax.swing.JButton jBtnConfirmaVenda;
     private javax.swing.JButton jBtnSair;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JMenu jMenuAdicionarClientes;
-    private javax.swing.JMenu jMenuAdicionarPratos;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTFCliente;
     private javax.swing.JTextField jTFCodCliente;
-    private javax.swing.JTextField jTFCodProduto;
+    private javax.swing.JTextField jTFCodPrato;
     private javax.swing.JTextField jTFDinheiro;
-    private javax.swing.JTextField jTFProduto;
-    private javax.swing.JTextField jTFQtd;
+    private javax.swing.JTextField jTFPrato;
     private javax.swing.JTextField jTFTroco;
     private javax.swing.JTextField jTFValorTotal;
+    private javax.swing.JTextField jTFporções;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel jTxtCodCliente;
     private javax.swing.JLabel jTxtCodProduto;
@@ -519,30 +502,48 @@ public class VendaComida extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void buscaProdutos(int codProduto) {
-        boolean encontrado = true;
-        for (int i = 0; i < produtos.size(); i++) {
-            if (produtos.get(i).getCod() == codProduto) {
-                jTFProduto.setText(produtos.get(i).getCod() + " - " + produtos.get(i).getProduto());
+        boolean encontrado = false;
+
+        try {
+            Statement stmt = Conexao.conecta().createStatement();
+            String query = "SELECT nomePrato FROM pratosComida WHERE cod = " + codProduto + ";";
+            ResultSet resultados = stmt.executeQuery(query);
+
+            while (resultados.next()) {
+                jTFPrato.setText(codProduto + " - " + resultados.getString("nomePrato"));
                 encontrado = true;
                 break;
             }
-        }
-        if (!encontrado) {
-            jTFProduto.setText("null");
+
+            if (!encontrado) {
+                jTFPrato.setText(null);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro de sintaxe SQL:\n" + ex.getMessage());
         }
     }
 
     private void buscaCliente(int clienteCod) {
         boolean encontrado = false;
-        for (int i = 0; i < clientes.size(); i++) {
-            if (clientes.get(i).getCodCliente() == clienteCod) {
-                jTFCliente.setText(clientes.get(i).getCodCliente() + " - " + clientes.get(i).getNome());
+
+        try {
+            Statement stmt = Conexao.conecta().createStatement();
+            String query = "SELECT nome FROM clientes WHERE cod = " + clienteCod + ";";
+            ResultSet resultados = stmt.executeQuery(query);
+
+            while (resultados.next()) {
+                jTFCliente.setText(clienteCod + " - " + resultados.getString("nome"));
                 encontrado = true;
                 break;
             }
-        }
-        if (!encontrado) {
-            jTFCliente.setText(null);
+
+            if (!encontrado) {
+                jTFCliente.setText(null);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Erro de sintaxe SQL:\n" + ex.getMessage());
         }
     }
 

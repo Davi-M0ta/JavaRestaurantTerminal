@@ -4,11 +4,11 @@ import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class AddCliente extends javax.swing.JDialog {
+    
 
     public AddCliente(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        
         this.setTitle("Adicionar Clientes");
     }
 
@@ -17,13 +17,13 @@ public class AddCliente extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLblTitulo = new javax.swing.JLabel();
         jTFnome = new javax.swing.JTextField();
         jTFendereco = new javax.swing.JTextField();
-        jFTFcpf = new javax.swing.JFormattedTextField();
+        jTFcpf = new javax.swing.JFormattedTextField();
         jLblNome = new javax.swing.JLabel();
         jLblCpf = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLblEndereco = new javax.swing.JLabel();
         jBtnCancelar = new javax.swing.JButton();
         jBtnAdiciona = new javax.swing.JButton();
 
@@ -31,11 +31,11 @@ public class AddCliente extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel1.setText("Adicionar Cliente");
+        jLblTitulo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLblTitulo.setText("Adicionar Cliente");
 
         try {
-            jFTFcpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+            jTFcpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -44,7 +44,7 @@ public class AddCliente extends javax.swing.JDialog {
 
         jLblCpf.setText("CPF:");
 
-        jLabel2.setText("Endereço:");
+        jLblEndereco.setText("Endereço:");
 
         jBtnCancelar.setText("Cancelar");
         jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -66,7 +66,7 @@ public class AddCliente extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(117, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(jLblTitulo)
                 .addGap(121, 121, 121))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -80,10 +80,10 @@ public class AddCliente extends javax.swing.JDialog {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLblNome)
                             .addComponent(jLblCpf, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
+                            .addComponent(jLblEndereco, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jFTFcpf, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTFcpf, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTFendereco, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTFnome))))
                 .addGap(14, 14, 14))
@@ -92,19 +92,19 @@ public class AddCliente extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLblTitulo)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLblNome))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jFTFcpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFcpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLblCpf))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFendereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLblEndereco))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnAdiciona)
@@ -134,23 +134,27 @@ public class AddCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnAdicionaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAdicionaActionPerformed
-        String nome = jTFnome.getText();
-        String cpf = jFTFcpf.getText();
-        String endereco = jTFendereco.getText();
+        if ("".equals(jTFnome.getText()) || "".equals(jTFcpf.getText()) || "".equals(jTFendereco.getText())) {
+            JOptionPane.showMessageDialog(this, "Há Campos em Branco!");
+        } else {
+            String nome = jTFnome.getText();
+            String cpf = jTFcpf.getText();
+            String endereco = jTFendereco.getText();
 
-        String query = "INSERT INTO `clientes` (`nome`, `cpf`, `endereco`) VALUES ('" + nome + "', '" + cpf + "', '" + endereco + "');";
-        try {
-            Statement stmt = Conexao.conecta().createStatement();
-            stmt.execute(query);
-            JOptionPane.showMessageDialog(this, "Dados Registrados!");
-            stmt.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Erro de Sintaxe:\n" + ex.getMessage());
+            String query = "INSERT INTO `clientes` (`nome`, `cpf`, `endereco`) VALUES ('" + nome + "', '" + cpf + "', '" + endereco + "');";
+            try {
+                Statement stmt = Conexao.conecta().createStatement();
+                stmt.execute(query);
+                JOptionPane.showMessageDialog(this, "Dados Registrados!");
+                stmt.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Erro de Sintaxe:\n" + ex.getMessage());
+            }
         }
-        
+
         jTFendereco.setText(null);
         jTFnome.setText(null);
-        jFTFcpf.setText(null);
+        jTFcpf.setText(null);
         jTFnome.requestFocus();
     }//GEN-LAST:event_jBtnAdicionaActionPerformed
 
@@ -170,15 +174,13 @@ public class AddCliente extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAdiciona;
     private javax.swing.JButton jBtnCancelar;
-    private javax.swing.JFormattedTextField jFTFcpf;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLblCpf;
+    private javax.swing.JLabel jLblEndereco;
     private javax.swing.JLabel jLblNome;
+    private javax.swing.JLabel jLblTitulo;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JFormattedTextField jTFcpf;
     private javax.swing.JTextField jTFendereco;
     private javax.swing.JTextField jTFnome;
     // End of variables declaration//GEN-END:variables
 }
-
-//032.500.220-71

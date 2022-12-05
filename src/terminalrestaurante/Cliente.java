@@ -1,19 +1,11 @@
 package terminalrestaurante;
 
-import java.util.LinkedList;
-
 public class Cliente {
-
-    public static LinkedList getClientes() {
-        return clientes;
-    }
 
     private int codCliente;
     private String nome;
     private String cpf;
     private String endereco;
-
-    public static LinkedList clientes = new LinkedList();
 
     public Cliente(int codCliente, String nome, String cpf, String endereco) {
         this.codCliente = codCliente;
@@ -54,4 +46,3 @@ public class Cliente {
         this.endereco = endereco;
     }
 }
-

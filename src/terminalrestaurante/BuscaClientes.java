@@ -37,22 +37,23 @@ public class BuscaClientes extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLblTitulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
+        jLblBusca = new javax.swing.JLabel();
         jTFbusca = new javax.swing.JTextField();
         jBtnSelecionado = new javax.swing.JButton();
         jBtnSair = new javax.swing.JButton();
         jBtnExcluir = new javax.swing.JButton();
         jBtnEditar = new javax.swing.JButton();
+        jBtnAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
-        jLabel1.setText("Clientes");
+        jLblTitulo.setFont(new java.awt.Font("Montserrat SemiBold", 0, 18)); // NOI18N
+        jLblTitulo.setText("Clientes");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -72,8 +73,8 @@ public class BuscaClientes extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel2.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
-        jLabel2.setText("Buscar Cliente:");
+        jLblBusca.setFont(new java.awt.Font("Montserrat", 0, 14)); // NOI18N
+        jLblBusca.setText("Buscar Cliente:");
 
         jTFbusca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -109,6 +110,13 @@ public class BuscaClientes extends javax.swing.JDialog {
             }
         });
 
+        jBtnAdd.setText("Adicionar Novo");
+        jBtnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAddActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -118,6 +126,8 @@ public class BuscaClientes extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jBtnEditar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBtnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBtnExcluir)
                         .addGap(18, 18, 18)
@@ -126,33 +136,34 @@ public class BuscaClientes extends javax.swing.JDialog {
                         .addComponent(jBtnSair))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(jLblBusca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTFbusca, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(282, 282, 282)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLblTitulo)
+                .addGap(291, 291, 291))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLblTitulo)
                 .addGap(12, 12, 12)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(jLblBusca)
                     .addComponent(jTFbusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnSair)
                     .addComponent(jBtnSelecionado)
                     .addComponent(jBtnExcluir)
-                    .addComponent(jBtnEditar))
+                    .addComponent(jBtnEditar)
+                    .addComponent(jBtnAdd))
                 .addContainerGap())
         );
 
@@ -213,12 +224,17 @@ public class BuscaClientes extends javax.swing.JDialog {
         String nome = jTable1.getValueAt(jTable1.getSelectedRow(), 1).toString();
         String cpf = jTable1.getValueAt(jTable1.getSelectedRow(), 2).toString();
         String endereco = jTable1.getValueAt(jTable1.getSelectedRow(), 3).toString();
-        
+
         EditarCliente editarCliente = new EditarCliente(null, true);
         editarCliente.recebeDados(cod, nome, cpf, endereco);
         editarCliente.setVisible(true);
-        
+
     }//GEN-LAST:event_jBtnEditarActionPerformed
+
+    private void jBtnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddActionPerformed
+        AddCliente addCliente = new AddCliente(null, true);
+        addCliente.setVisible(true);
+    }//GEN-LAST:event_jBtnAddActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
@@ -234,12 +250,13 @@ public class BuscaClientes extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnAdd;
     private javax.swing.JButton jBtnEditar;
     private javax.swing.JButton jBtnExcluir;
     private javax.swing.JButton jBtnSair;
     private javax.swing.JButton jBtnSelecionado;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLblBusca;
+    private javax.swing.JLabel jLblTitulo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTFbusca;
@@ -263,10 +280,8 @@ public class BuscaClientes extends javax.swing.JDialog {
                             resultados.getString("endereco"),}
                 );
             }
-
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Erro de sintaxe SQL:\n" + ex.getMessage());
         }
-
     }
 }

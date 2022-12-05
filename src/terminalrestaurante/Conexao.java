@@ -14,14 +14,13 @@ public class Conexao {
     public static Connection conecta() {
         Connection conn;
         conn = null;
-    
+
         String url = "jdbc:mysql://localhost:3306/TerminalVendasBD";
         String user = "root";
         String senha = "";
 
         try {
             conn = (Connection) DriverManager.getConnection(url, user, senha);
-            //JOptionPane.showMessageDialog(null, "Conexão bem sucedida");
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao conectar com BD:\n" + ex.getMessage());
         }

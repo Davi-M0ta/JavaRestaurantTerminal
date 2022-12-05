@@ -10,7 +10,6 @@ public class EditarCliente extends javax.swing.JDialog {
         initComponents();
 
         this.setTitle("Editar Dados do Cliente");
-
     }
 
     @SuppressWarnings("unchecked")
@@ -18,24 +17,24 @@ public class EditarCliente extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLblTitulo = new javax.swing.JLabel();
         jTFnome = new javax.swing.JTextField();
         jTFendereco = new javax.swing.JTextField();
         jTFcpf = new javax.swing.JFormattedTextField();
         jLblNome = new javax.swing.JLabel();
         jLblCpf = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLblEndereco = new javax.swing.JLabel();
         jBtnCancelar = new javax.swing.JButton();
         jBtnAtualizar = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        jLblCod = new javax.swing.JLabel();
         jTFcod = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel1.setText("Editar Dados");
+        jLblTitulo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLblTitulo.setText("Editar Dados");
 
         try {
             jTFcpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
@@ -47,7 +46,7 @@ public class EditarCliente extends javax.swing.JDialog {
 
         jLblCpf.setText("CPF:");
 
-        jLabel2.setText("Endereço:");
+        jLblEndereco.setText("Endereço:");
 
         jBtnCancelar.setText("Cancelar");
         jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -63,7 +62,7 @@ public class EditarCliente extends javax.swing.JDialog {
             }
         });
 
-        jLabel3.setText("Cod:");
+        jLblCod.setText("Cod:");
 
         jTFcod.setEditable(false);
 
@@ -81,11 +80,11 @@ public class EditarCliente extends javax.swing.JDialog {
                         .addComponent(jBtnCancelar))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
+                            .addComponent(jLblCod)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLblNome)
                                 .addComponent(jLblCpf, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addComponent(jLblEndereco, javax.swing.GroupLayout.Alignment.TRAILING)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTFcpf, javax.swing.GroupLayout.Alignment.LEADING)
@@ -95,17 +94,17 @@ public class EditarCliente extends javax.swing.JDialog {
                 .addGap(14, 14, 14))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(jLblTitulo)
                 .addGap(138, 138, 138))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLblTitulo)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(jLblCod)
                     .addComponent(jTFcod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -118,7 +117,7 @@ public class EditarCliente extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTFendereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(jLblEndereco))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnAtualizar)
@@ -145,22 +144,25 @@ public class EditarCliente extends javax.swing.JDialog {
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAtualizarActionPerformed
-        String cod = jTFcod.getText();
-        String nome = jTFnome.getText();
-        String cpf = jTFcpf.getText();
-        String endereco = jTFendereco.getText();
+        if ("".equals(jTFnome.getText()) || "".equals(jTFcpf.getText()) || "".equals(jTFendereco.getText())) {
+            JOptionPane.showMessageDialog(this, "Há Campos em Branco!");
+        } else {
+            String cod = jTFcod.getText();
+            String nome = jTFnome.getText();
+            String cpf = jTFcpf.getText();
+            String endereco = jTFendereco.getText();
 
-        String query = "UPDATE `clientes` SET `cod` = '" + cod + "', `nome` = '" + nome + "', `cpf` = '" + cpf + "', `endereco` = '" + endereco + "' WHERE `clientes`.`cod` = "+ cod +";";
+            String query = "UPDATE `clientes` SET `cod` = '" + cod + "', `nome` = '" + nome + "', `cpf` = '" + cpf + "', `endereco` = '" + endereco + "' WHERE `clientes`.`cod` = " + cod + ";";
 
-        try {
-            Statement stmt = Conexao.conecta().createStatement();
-            stmt.execute(query);
-            JOptionPane.showMessageDialog(this, "Dados Atualizados!");
-            stmt.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Erro de Sintaxe:\n" + ex.getMessage());
+            try {
+                Statement stmt = Conexao.conecta().createStatement();
+                stmt.execute(query);
+                JOptionPane.showMessageDialog(this, "Dados Atualizados!");
+                stmt.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Erro de Sintaxe:\n" + ex.getMessage());
+            }
         }
-
         this.dispose();
     }//GEN-LAST:event_jBtnAtualizarActionPerformed
 
@@ -180,11 +182,11 @@ public class EditarCliente extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnAtualizar;
     private javax.swing.JButton jBtnCancelar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLblCod;
     private javax.swing.JLabel jLblCpf;
+    private javax.swing.JLabel jLblEndereco;
     private javax.swing.JLabel jLblNome;
+    private javax.swing.JLabel jLblTitulo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTFcod;
     private javax.swing.JFormattedTextField jTFcpf;

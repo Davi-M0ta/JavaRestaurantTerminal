@@ -17,7 +17,7 @@ public class EditarPratos extends javax.swing.JDialog {
     private void initComponents() {
 
         PanelPrincipal = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLblTitulo = new javax.swing.JLabel();
         jTFnomePrato = new javax.swing.JTextField();
         jTFtamanho = new javax.swing.JTextField();
         jLblNomePrato = new javax.swing.JLabel();
@@ -26,15 +26,15 @@ public class EditarPratos extends javax.swing.JDialog {
         jBtnCancelar = new javax.swing.JButton();
         jBtnAtualiza = new javax.swing.JButton();
         jTFvalor = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        jLblCod = new javax.swing.JLabel();
         jTFcod = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         PanelPrincipal.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        jLabel1.setText("Editar Pratos");
+        jLblTitulo.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        jLblTitulo.setText("Editar Pratos");
 
         jLblNomePrato.setText("Nome Prato:");
 
@@ -56,7 +56,7 @@ public class EditarPratos extends javax.swing.JDialog {
             }
         });
 
-        jLabel2.setText("Cod:");
+        jLblCod.setText("Cod:");
 
         jTFcod.setEditable(false);
 
@@ -75,7 +75,7 @@ public class EditarPratos extends javax.swing.JDialog {
                         .addGap(14, 14, 14))
                     .addGroup(PanelPrincipalLayout.createSequentialGroup()
                         .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
+                            .addComponent(jLblCod)
                             .addComponent(jLblNomePrato)
                             .addComponent(jLblValor)
                             .addComponent(jLblTamanho))
@@ -88,17 +88,17 @@ public class EditarPratos extends javax.swing.JDialog {
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPrincipalLayout.createSequentialGroup()
                 .addContainerGap(150, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(jLblTitulo)
                 .addGap(138, 138, 138))
         );
         PanelPrincipalLayout.setVerticalGroup(
             PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(jLblTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(jLblCod)
                     .addComponent(jTFcod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -138,20 +138,24 @@ public class EditarPratos extends javax.swing.JDialog {
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnAtualizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAtualizaActionPerformed
-        String cod = jTFcod.getText();
-        String nomePrato = jTFnomePrato.getText();
-        String valor = jTFvalor.getText();
-        String tamanho = jTFtamanho.getText();
+        if ("".equals(jTFnomePrato.getText()) || "".equals(jTFvalor.getText()) || "".equals(jTFtamanho.getText())) {
+            JOptionPane.showMessageDialog(this, "Há Campos em Branco!");
+        } else {
+            String cod = jTFcod.getText();
+            String nomePrato = jTFnomePrato.getText();
+            String valor = jTFvalor.getText();
+            String tamanho = jTFtamanho.getText();
 
-        String query = "UPDATE `pratosComida` SET `cod` = '" + cod + "', `nomePrato` = '" + nomePrato + "', `valor` = '" + valor + "', `tamanho` = '" + tamanho + "' WHERE `pratosComida`.`cod` = " + cod + ";";
+            String query = "UPDATE `pratosComida` SET `cod` = '" + cod + "', `nomePrato` = '" + nomePrato + "', `valor` = '" + valor + "', `tamanho` = '" + tamanho + "' WHERE `pratosComida`.`cod` = " + cod + ";";
 
-        try {
-            Statement stmt = Conexao.conecta().createStatement();
-            stmt.execute(query);
-            JOptionPane.showMessageDialog(this, "Dados Registrados!");
-            stmt.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Erro de Sintaxe:\n" + ex.getMessage());
+            try {
+                Statement stmt = Conexao.conecta().createStatement();
+                stmt.execute(query);
+                JOptionPane.showMessageDialog(this, "Dados Registrados!");
+                stmt.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Erro de Sintaxe:\n" + ex.getMessage());
+            }
         }
         this.dispose();
     }//GEN-LAST:event_jBtnAtualizaActionPerformed
@@ -174,10 +178,10 @@ public class EditarPratos extends javax.swing.JDialog {
     private javax.swing.JPanel PanelPrincipal;
     private javax.swing.JButton jBtnAtualiza;
     private javax.swing.JButton jBtnCancelar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLblCod;
     private javax.swing.JLabel jLblNomePrato;
     private javax.swing.JLabel jLblTamanho;
+    private javax.swing.JLabel jLblTitulo;
     private javax.swing.JLabel jLblValor;
     private javax.swing.JTextField jTFcod;
     private javax.swing.JTextField jTFnomePrato;
@@ -185,11 +189,10 @@ public class EditarPratos extends javax.swing.JDialog {
     private javax.swing.JTextField jTFvalor;
     // End of variables declaration//GEN-END:variables
 
-    public void recebeDados(String cod, String nomePrato, String valor, String tamanho){
+    public void recebeDados(String cod, String nomePrato, String valor, String tamanho) {
         jTFcod.setText(cod);
         jTFnomePrato.setText(nomePrato);
         jTFvalor.setText(valor);
         jTFtamanho.setText(tamanho);
     }
-
 }
